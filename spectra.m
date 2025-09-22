@@ -100,6 +100,7 @@ plot(L_interp, I_R, 'Color', [255/255 0/255 0/255]);
 plot(L_interp, I_G, 'Color', [0/255 255/255 0/255]);
 plot(L_interp, I_Lime, 'Color', [85/255 220/255 85/255]);
 plot(L_interp, I_A, 'Color', [255/255 198/255 0/255]);
+plot(L_interp, V, 'black', 'LineWidth', 2);
 
 
 F_teor_2700 = 683*trapz(L_interp, I_2700.*V)/trapz(L_interp, I_2700);
