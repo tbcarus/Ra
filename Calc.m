@@ -32,11 +32,11 @@ w_max = inf(m,1);              % при необходимости задайте пределы
 
 %% === CVX: L2-фит без масштаба ===
 cvx_begin quiet
-    variable w(m)
+    variable w(m) nonnegative
     minimize( norm( W*(S*w - t), 2 ) + 1e-3*norm(w,1) )  % лЄгка€ L1-регул€ризаци€
     subject to
-        w >= 0
-        w <= w_max
+%         w >= 0
+%         w <= w_max
         % ¬ Ћё„»“≈, если хотите смесь долей (при пик-нормировке столбцов S):
         % sum(w) == 1
 cvx_end
