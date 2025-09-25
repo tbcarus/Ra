@@ -131,6 +131,9 @@ S(:,4) = I_R';
 S(:,5) = I_G';
 S(:,6) = I_Lime';
 S(:,7) = I_A';
+S(:,8) = I_DR';
+S(:,9) = I_FR';
+names = {'2700K', '6500K', 'Cyan', 'Red', 'Green', 'Lime' 'PC Amber', 'Deep red', 'Far red'};
 lambda_t = L'; % [nt x 1] сетка эталона
 t_raw = (AM15/max(AM15))'; % [nt x 1] эталонный спектр (НЕ нормирован)
 

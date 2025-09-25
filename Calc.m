@@ -51,7 +51,10 @@ mae  = mean(abs(resid));
 maxe = max(abs(resid));
 fprintf('Status: %s\n', cvx_status);
 fprintf('RMSE: %.4g, MAE: %.4g, Max|e|: %.4g\n', rmse, mae, maxe);
-disp('Оптимальные веса (w):'); disp(w_opt.');
+disp('Оптимальные веса:')
+for k = 1:m
+    fprintf('%-10s : %.4f\n', names{k}, w_opt(k));
+end
 
 figure;
 plot(lambda_led, t, '-', 'LineWidth', 1.5); hold on;
