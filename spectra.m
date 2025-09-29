@@ -1,10 +1,10 @@
 clearvars;
 close all;
 
-% Исходные спектры
-% Обработка исходных спектров
-% Выводы графиков
-% Подготовка данных к расчёту соотношения каналов
+% РСЃС…РѕРґРЅС‹Рµ СЃРїРµРєС‚СЂС‹
+% РћР±СЂР°Р±РѕС‚РєР° РёСЃС…РѕРґРЅС‹С… СЃРїРµРєС‚СЂРѕРІ
+% Р’С‹РІРѕРґС‹ РіСЂР°С„РёРєРѕРІ
+% РџРѕРґРіРѕС‚РѕРІРєР° РґР°РЅРЅС‹С… Рє СЂР°СЃС‡С‘С‚Сѓ СЃРѕРѕС‚РЅРѕС€РµРЅРёСЏ РєР°РЅР°Р»РѕРІ
 
 run('led_config.m')
 L_interp = (375:0.5:800);
@@ -111,33 +111,33 @@ plot(L_interp, I_A, 'Color', [255/255 198/255 0/255]);
 
 
 F_teor_2700 = 683*trapz(L_interp, I_2700.*V)/trapz(L_interp, I_2700);
-disp(strcat('    2700..........', int2str(F_teor_2700), ' лм'));
+disp(strcat('    2700..........', int2str(F_teor_2700), ' Р»Рј'));
 F_teor_6500 = 683*trapz(L_interp, I_6500.*V)/trapz(L_interp, I_6500);
-disp(strcat('    6500..........', int2str(F_teor_6500), ' лм'));
+disp(strcat('    6500..........', int2str(F_teor_6500), ' Р»Рј'));
 F_teor_B = 683*trapz(L_interp, I_B.*V)/trapz(L_interp, I_B);
-disp(strcat('    B..........', int2str(F_teor_B), ' лм'));
+disp(strcat('    B..........', int2str(F_teor_B), ' Р»Рј'));
 F_teor_Cyan = 683*trapz(L_interp, I_Cyan.*V)/trapz(L_interp, I_Cyan);
-disp(strcat('    Cyan..........', int2str(F_teor_Cyan), ' лм'));
+disp(strcat('    Cyan..........', int2str(F_teor_Cyan), ' Р»Рј'));
 F_teor_PCCyan_XEG = 683*trapz(L_interp, I_PCCyan_XEG.*V)/trapz(L_interp, I_PCCyan_XEG);
-disp(strcat('    PCCyan_XEG..........', int2str(F_teor_PCCyan_XEG), ' лм'));
+disp(strcat('    PCCyan_XEG..........', int2str(F_teor_PCCyan_XEG), ' Р»Рј'));
 F_teor_PCCyan_XQE = 683*trapz(L_interp, I_PCCyan_XQE.*V)/trapz(L_interp, I_PCCyan_XQE);
-disp(strcat('    PCCyan_XQE..........', int2str(F_teor_PCCyan_XQE), ' лм'));
+disp(strcat('    PCCyan_XQE..........', int2str(F_teor_PCCyan_XQE), ' Р»Рј'));
 F_teor_R = 683*trapz(L_interp, I_R.*V)/trapz(L_interp, I_R);
-disp(strcat('    R..........', int2str(F_teor_R), ' лм'));
+disp(strcat('    R..........', int2str(F_teor_R), ' Р»Рј'));
 F_teor_G = 683*trapz(L_interp, I_G.*V)/trapz(L_interp, I_G);
-disp(strcat('    G..........', int2str(F_teor_G), ' лм'));
+disp(strcat('    G..........', int2str(F_teor_G), ' Р»Рј'));
 F_teor_Lime = 683*trapz(L_interp, I_Lime.*V)/trapz(L_interp, I_Lime);
-disp(strcat('    Lime..........', int2str(F_teor_Lime), ' лм'));
+disp(strcat('    Lime..........', int2str(F_teor_Lime), ' Р»Рј'));
 F_teor_A = 683*trapz(L_interp, I_A.*V)/trapz(L_interp, I_A);
-disp(strcat('    PC A..........', int2str(F_teor_A), ' лм'));
+disp(strcat('    PC A..........', int2str(F_teor_A), ' Р»Рј'));
 
 % F_teor_ = 683*trapz(L_interp, I_.*V)/trapz(L_interp, I_);
-% disp(strcat('    2700..........', int2str(F_teor_), ' лм'));
+% disp(strcat('    2700..........', int2str(F_teor_), ' Р»Рј'));
 
 
-% Подготовка данных
-lambda_led = L_interp'; % [n x 1] вектор длин волн (нм), общая сетка для LED
-S(:,1) = I_2700'; % [n x m] матрица спектров LED (каждый столбец нормирован к 1)
+% РџРѕРґРіРѕС‚РѕРІРєР° РґР°РЅРЅС‹С…
+lambda_led = L_interp'; % [n x 1] РІРµРєС‚РѕСЂ РґР»РёРЅ РІРѕР»РЅ (РЅРј), РѕР±С‰Р°СЏ СЃРµС‚РєР° РґР»СЏ LED
+S(:,1) = I_2700'; % [n x m] РјР°С‚СЂРёС†Р° СЃРїРµРєС‚СЂРѕРІ LED (РєР°Р¶РґС‹Р№ СЃС‚РѕР»Р±РµС† РЅРѕСЂРјРёСЂРѕРІР°РЅ Рє 1)
 S(:,2) = I_6500';
 S(:,3) = I_RB';
 S(:,4) = I_B';
@@ -152,8 +152,8 @@ S(:,12) = I_DR';
 S(:,13) = I_FR';
 
 names = {'2700K', '6500K', 'RB', 'B', 'Cyan', 'PC Cyan XEG', 'PC Cyan XQE', 'Lime', 'Green', 'PC Amber', 'Red' 'Deep red', 'Far red'};
-lambda_t = L'; % [nt x 1] сетка эталона
-t_raw = (AM15/max(AM15))'; % [nt x 1] эталонный спектр (НЕ нормирован)
+lambda_t = L'; % [nt x 1] СЃРµС‚РєР° СЌС‚Р°Р»РѕРЅР°
+t_raw = (AM15/max(AM15))'; % [nt x 1] СЌС‚Р°Р»РѕРЅРЅС‹Р№ СЃРїРµРєС‚СЂ (РќР• РЅРѕСЂРјРёСЂРѕРІР°РЅ)
 
 
 
