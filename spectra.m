@@ -136,24 +136,29 @@ disp(strcat('    PC A..........', int2str(F_teor_A), ' лм'));
 
 
 % Подготовка данных
-lambda_led = L_interp'; % [n x 1] вектор длин волн (нм), общая сетка для LED
-S(:,1) = I_2700'; % [n x m] матрица спектров LED (каждый столбец нормирован к 1)
-S(:,2) = I_6500';
-S(:,3) = I_RB';
-S(:,4) = I_B';
-S(:,5) = I_Cyan';
-S(:,6) = I_PCCyan_XEG';
-S(:,7) = I_PCCyan_XQE';
-S(:,8) = I_Lime';
-S(:,9) = I_G';
-S(:,10) = I_A';
-S(:,11) = I_R';
-S(:,12) = I_DR';
-S(:,13) = I_FR';
+names = {Channels.WARM2700, Channels.COOL6500, Channels.ROYAL_BLUE, ...
+    Channels.BLUE, Channels.CYAN, Channels.PC_CYAN_XEG, ...
+    Channels.PC_CYAN_XQE, Channels.LIME, Channels.GREEN, ...
+    Channels.PC_AMBER, Channels.RED, Channels.DEEP_RED, Channels.FAR_RED};
+name2idx = containers.Map(names, 1:numel(names), 'UniformValues', true);
 
-names = {'2700K', '6500K', 'RB', 'B', 'Cyan', 'PC Cyan XEG', 'PC Cyan XQE', 'Lime', 'Green', 'PC Amber', 'Red' 'Deep red', 'Far red'};
+lambda_led = L_interp'; % [n x 1] вектор длин волн (нм), общая сетка для LED
+S(:,name2idx(Channels.WARM2700)) = I_2700'; % [n x m] матрица спектров LED (каждый столбец нормирован к 1)
+S(:,name2idx(Channels.COOL6500)) = I_6500';
+S(:,name2idx(Channels.ROYAL_BLUE)) = I_RB';
+S(:,name2idx(Channels.BLUE)) = I_B';
+S(:,name2idx(Channels.CYAN)) = I_Cyan';
+S(:,name2idx(Channels.PC_CYAN_XEG)) = I_PCCyan_XEG';
+S(:,name2idx(Channels.PC_CYAN_XQE)) = I_PCCyan_XQE';
+S(:,name2idx(Channels.LIME)) = I_Lime';
+S(:,name2idx(Channels.GREEN)) = I_G';
+S(:,name2idx(Channels.PC_AMBER)) = I_A';
+S(:,name2idx(Channels.RED)) = I_R';
+S(:,name2idx(Channels.DEEP_RED)) = I_DR';
+S(:,name2idx(Channels.FAR_RED)) = I_FR';
+
 lambda_t = L'; % [nt x 1] сетка эталона
-t_raw = (AM15/max(AM15))'; % [nt x 1] эталонный спектр (НЕ нормирован)
+t_raw = AM15;
 
 
 
