@@ -26,7 +26,7 @@ u = ones(n,1);                 % сюда можно подставить V(?) �
 W = spdiags(u, 0, n, n);
 
 %% === (Опц.) Ограничения на веса диодов ===
-disabled_names = {ra.Channels.WARM2700};
+disabled_names = {};
 active_mask = ~ismember(names, disabled_names);
 % Для контроля вывод отключённых каналов:
 if any(~active_mask)
