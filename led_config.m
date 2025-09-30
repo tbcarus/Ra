@@ -8,7 +8,7 @@ function [Params, T, F_Sun_AM15] = led_config()
 
 [names, name2idx] = ra.led_order();
 m = numel(names);
-% Инициализация NaN (чтобы сразу видно, что не заполнено)
+% Инициализация NaN (чтобы было сразу видно, что не заполнено)
 F = nan(m,1); I = nan(m,1); U = nan(m,1);
 
 setv(ra.Channels.WARM2700,  350,  1.05, 2.79);
