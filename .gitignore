@@ -1,1 +1,23 @@
-.asv
+# MATLAB autosave and backup
+*.asv
+*.m~ 
+*.bak
+
+# MAT data files (большие промежуточные данные лучше не коммитить)
+*.mat
+
+# Figures and cache
+*.fig
+*.slxc
+*.mex*
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Logs and temporary
+*.log
+*.tmp
+
+# Project-specific
+/private/

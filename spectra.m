@@ -1,3 +1,4 @@
+function [names, S, lambda_led, lambda_t, t_raw, name2idx] = spectra()
 clearvars;
 close all;
 
@@ -135,35 +136,38 @@ disp(strcat('    PC A..........', int2str(F_teor_A), ' лм'));
 % disp(strcat('    2700..........', int2str(F_teor_), ' лм'));
 
 
-% Подготовка данных
-names = {Channels.WARM2700, Channels.COOL6500, Channels.ROYAL_BLUE, ...
-    Channels.BLUE, Channels.CYAN, Channels.PC_CYAN_XEG, ...
-    Channels.PC_CYAN_XQE, Channels.LIME, Channels.GREEN, ...
-    Channels.PC_AMBER, Channels.RED, Channels.DEEP_RED, Channels.FAR_RED};
+%% Подготовка данных
+names = {ra.Channels.WARM2700, ra.Channels.COOL6500, ra.Channels.ROYAL_BLUE, ...
+    ra.Channels.BLUE, ra.Channels.CYAN, ra.Channels.PC_CYAN_XEG, ...
+    ra.Channels.PC_CYAN_XQE, ra.Channels.LIME, ra.Channels.GREEN, ...
+    ra.Channels.PC_AMBER, ra.Channels.RED, ra.Channels.DEEP_RED, ra.Channels.FAR_RED};
 name2idx = containers.Map(names, 1:numel(names), 'UniformValues', true);
 
-lambda_led = L_interp'; % [n x 1] вектор длин волн (нм), общая сетка для LED
-S(:,name2idx(Channels.WARM2700)) = I_2700'; % [n x m] матрица спектров LED (каждый столбец нормирован к 1)
-S(:,name2idx(Channels.COOL6500)) = I_6500';
-S(:,name2idx(Channels.ROYAL_BLUE)) = I_RB';
-S(:,name2idx(Channels.BLUE)) = I_B';
-S(:,name2idx(Channels.CYAN)) = I_Cyan';
-S(:,name2idx(Channels.PC_CYAN_XEG)) = I_PCCyan_XEG';
-S(:,name2idx(Channels.PC_CYAN_XQE)) = I_PCCyan_XQE';
-S(:,name2idx(Channels.LIME)) = I_Lime';
-S(:,name2idx(Channels.GREEN)) = I_G';
-S(:,name2idx(Channels.PC_AMBER)) = I_A';
-S(:,name2idx(Channels.RED)) = I_R';
-S(:,name2idx(Channels.DEEP_RED)) = I_DR';
-S(:,name2idx(Channels.FAR_RED)) = I_FR';
+S(:,name2idx(ra.Channels.WARM2700)) = I_2700'; % [n x m] матрица спектров LED (каждый столбец нормирован к 1)
+S(:,name2idx(ra.Channels.COOL6500)) = I_6500';
+S(:,name2idx(ra.Channels.ROYAL_BLUE)) = I_RB';
+S(:,name2idx(ra.Channels.BLUE)) = I_B';
+S(:,name2idx(ra.Channels.CYAN)) = I_Cyan';
+S(:,name2idx(ra.Channels.PC_CYAN_XEG)) = I_PCCyan_XEG';
+S(:,name2idx(ra.Channels.PC_CYAN_XQE)) = I_PCCyan_XQE';
+S(:,name2idx(ra.Channels.LIME)) = I_Lime';
+S(:,name2idx(ra.Channels.GREEN)) = I_G';
+S(:,name2idx(ra.Channels.PC_AMBER)) = I_A';
+S(:,name2idx(ra.Channels.RED)) = I_R';
+S(:,name2idx(ra.Channels.DEEP_RED)) = I_DR';
+S(:,name2idx(ra.Channels.FAR_RED)) = I_FR';
 
+lambda_led = L_interp'; % [n x 1] вектор длин волн (нм), общая сетка для LED
 lambda_t = L'; % [nt x 1] сетка эталона
 t_raw = AM15;
 
+% валидация
+assert(numel(names)==size(S,2), 'names != столбцов S');
+assert(all(max(S,[],1)>0), 'Есть нулевые столбцы в S');
 
 
 
-
+end
 
 
 
