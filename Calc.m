@@ -84,3 +84,16 @@ figure;
 plot(lambda_led, resid, 'LineWidth', 1);
 xlabel('\lambda, nm'); ylabel('Error'); grid on;
 title('Остаток: S*w - t');
+
+
+%% === Оценка спектра ===
+% fit, lambda_led посчитаны
+R = evaluateSpectrum(lambda_led, fit, 'Target', t);
+
+fprintf('xy=(%.4f,%.4f), u''v''=(%.4f,%.4f)\n', R.xy(1),R.xy(2), R.uv(1),R.uv(2));
+fprintf('CCT=%.0f K, Δu''v''=%.5f\n', R.CCT, R.duv);
+fprintf('Ra=%.1f  (CRI)\n', R.Ra);
+fprintf('BLH index=%.4f\n', R.BLH);
+if ~isnan(R.dxy)
+    fprintf('Δxy (vs target)=%.5f, Δu''v''(vs target)=%.5f\n', R.dxy, R.duv2);
+end
