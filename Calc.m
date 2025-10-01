@@ -10,7 +10,7 @@ close all;
 
 [Params, T, F_Sun_AM15] = led_config();
 [names, name2idx] = ra.led_order();
-[S, lambda_led, lambda_t, t_raw] = spectra(names, name2idx, Params, F_Sun_AM15);
+[S, lambda_led, lambda_t, t_raw, V] = spectra(names, name2idx, Params, F_Sun_AM15);
 assert(exist('lambda_led','var')==1 && exist('S','var')==1, 'Нет S или lambda_led');
 assert(exist('lambda_t','var')==1 && exist('t_raw','var')==1, 'Нет эталона');
 [n, m] = size(S);
@@ -85,15 +85,17 @@ plot(lambda_led, resid, 'LineWidth', 1);
 xlabel('\lambda, nm'); ylabel('Error'); grid on;
 title('Остаток: S*w - t');
 
+%% === ПРОВЕРКА ===
+checkSpectrum(lambda_led, t, S, Params, names, name2idx, w_opt, V);
 
 %% === Оценка спектра ===
 % fit, lambda_led посчитаны
-R = evaluateSpectrum(lambda_led, fit, 'Target', t);
-
-fprintf('xy=(%.4f,%.4f), u''v''=(%.4f,%.4f)\n', R.xy(1),R.xy(2), R.uv(1),R.uv(2));
-fprintf('CCT=%.0f K, Δu''v''=%.5f\n', R.CCT, R.duv);
-fprintf('Ra=%.1f  (CRI)\n', R.Ra);
-fprintf('BLH index=%.4f\n', R.BLH);
-if ~isnan(R.dxy)
-    fprintf('Δxy (vs target)=%.5f, Δu''v''(vs target)=%.5f\n', R.dxy, R.duv2);
-end
+% R = evaluateSpectrum(lambda_led, fit, 'Target', t);
+% 
+% fprintf('xy=(%.4f,%.4f), u''v''=(%.4f,%.4f)\n', R.xy(1),R.xy(2), R.uv(1),R.uv(2));
+% fprintf('CCT=%.0f K, Δu''v''=%.5f\n', R.CCT, R.duv);
+% fprintf('Ra=%.1f  (CRI)\n', R.Ra);
+% fprintf('BLH index=%.4f\n', R.BLH);
+% if ~isnan(R.dxy)
+%     fprintf('Δxy (vs target)=%.5f, Δu''v''(vs target)=%.5f\n', R.dxy, R.duv2);
+% end

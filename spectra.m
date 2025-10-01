@@ -1,4 +1,4 @@
-function [S, lambda_led, lambda_t, t_raw] = spectra(names, name2idx, Params, F_Sun_AM15)
+function [S, lambda_led, lambda_t, t_raw, V] = spectra(names, name2idx, Params, F_Sun_AM15)
 
 % Исходные спектры
 % Обработка исходных спектров
