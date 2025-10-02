@@ -1,38 +1,33 @@
-function R = evaluate_spectrum(lambda_nm, spd, varargin)
-% Единая “оценка спектра”: xy, uv, CCT (точный), Ra, BLH, и, опц., сравнение с target
-p = inputParser;
-p.addParameter('Target', [], @(v)isvector(v));
-p.parse(varargin{:});
-t = p.Results.Target;
+function E = evaluateSpectrum(L_interp, spd, target)
+% EVALUATESPECTRUM  Базовая оценка спектра (xy, u'v', XYZ, + сравнение с target)
+%
+% Вход:
+%   L_interp : [n x 1] сетка длин волн (нм)
+%   spd      : [n x 1] спектр смеси (например, fit)
+%   target : [n x 1] эталонный спектр на той же сетке (опц.)
+%
+% Выход (struct E):
+%   E.XYZ  : [3x1] тристимульные значения
+%   E.xy   : [2x1] координаты x,y
+%   E.uv   : [2x1] координаты u',v'
+%   E.dxy  : скаляр, расстояние между xy(fit) и xy(target) (если задан target)
+%   E.duv  : скаляр, расстояние между u'v'(fit) и u'v'(target) (если задан target)
+%
+% Позже сюда добавим: E.CCT, E.Ra, E.BHL и т.д.
 
-% xy/uv
-c = ra.xyuv(lambda_nm, spd);
 
-% CCT (точный)
-cct = ra.cctExact(lambda_nm, spd);
+% базовые метрики по текущему спектру xy/uv
+    xyuvOut = ra.xyuv(L_interp, spd);
+    E = xyuvOut;
 
-% CRI (если готовы TCS; иначе вернёт заглушку)
-cri = ra.cri_ra(lambda_nm, spd);
+    E.dxy = NaN;
+    E.duv = NaN;
+    if ~isempty(target)
+        xyuvOut_t = ra.xyuv(L_interp, target);
+        E.dxy = norm(xyuvOut.xy - xyuvOut_t.xy, 2);
+        E.duv = norm(xyuvOut.uv - xyuvOut_t.uv, 2);
+    end
 
-% BHL индекс
-blh = ra.blueHazard(lambda_nm, spd);
 
-% Δuv / Δxy до target (если есть)
-dxy = NaN; duv = NaN;
-if ~isempty(t)
-    ct = ra.xyuv(lambda_nm, t);
-    dxy = norm(c.xy - ct.xy, 2);
-    duv = norm(c.uv - ct.uv, 2);
-end
-
-% Собираем ответ
-R.xy   = c.xy;
-R.uv   = c.uv;
-R.CCT  = cct.CCT;
-R.duv  = cct.duv;
-R.Ra   = cri.Ra;
-R.BLH  = blh.index;
-R.dxy  = dxy;
-R.duv2 = duv;
 end
 

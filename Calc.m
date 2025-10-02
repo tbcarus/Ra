@@ -27,6 +27,11 @@ W = spdiags(u, 0, n, n);
 
 %% === (Опц.) Ограничения на веса диодов ===
 disabled_names = {};
+% disabled_names = {ra.Channels.COOL6500, ra.Channels.ROYAL_BLUE, ...
+%     ra.Channels.BLUE, ra.Channels.CYAN, ra.Channels.PC_CYAN_XEG, ...
+%     ra.Channels.PC_CYAN_XQE, ra.Channels.LIME, ra.Channels.GREEN, ...
+%     ra.Channels.PC_AMBER, ra.Channels.RED, ra.Channels.DEEP_RED, ra.Channels.FAR_RED};
+
 active_mask = ~ismember(names, disabled_names);
 % Для контроля вывод отключённых каналов:
 if any(~active_mask)
@@ -89,13 +94,13 @@ title('Остаток: S*w - t');
 checkSpectrum(lambda_led, t, S, Params, names, name2idx, w_opt, V);
 
 %% === Оценка спектра ===
-% fit, lambda_led посчитаны
-% R = evaluateSpectrum(lambda_led, fit, 'Target', t);
-% 
-% fprintf('xy=(%.4f,%.4f), u''v''=(%.4f,%.4f)\n', R.xy(1),R.xy(2), R.uv(1),R.uv(2));
-% fprintf('CCT=%.0f K, Δu''v''=%.5f\n', R.CCT, R.duv);
-% fprintf('Ra=%.1f  (CRI)\n', R.Ra);
-% fprintf('BLH index=%.4f\n', R.BLH);
-% if ~isnan(R.dxy)
-%     fprintf('Δxy (vs target)=%.5f, Δu''v''(vs target)=%.5f\n', R.dxy, R.duv2);
-% end
+
+% базовая оценка смеси
+E_fit = evaluateSpectrum(lambda_led, fit, t);
+
+fprintf('xy = (%.4f, %.4f)\n', E_fit.xy(1), E_fit.xy(2));
+fprintf('u''v'' = (%.4f, %.4f)\n', E_fit.uv(1), E_fit.uv(2));
+
+if ~isnan(E_fit.dxy)
+    fprintf('Δxy = %.5f, Δu''v'' = %.5f\n', E_fit.dxy, E_fit.duv);
+end
