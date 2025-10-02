@@ -24,6 +24,10 @@ E.color = col;
 cct = ra.cctExact(L_interp, spd);
 E.CCT = cct;        % Кельвины
 
+% Ra
+cri = ra.cri_ra(L_interp, spd);
+E.CRI = cri;
+
 % Сравнение с target (эталонный спектр)
 E.compare.dxy = NaN;
 E.compare.duv = NaN;
