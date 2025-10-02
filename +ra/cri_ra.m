@@ -21,8 +21,21 @@ function CRI = cri_ra(L_interp, spd)
         % spd_ref = spd_ref / trapz(L_interp, spd_ref);
     end
 
+    % === Белая поверхность (R=1) под обоими источниками ===
+    ones_reflector = ones(numel(L_interp),1);
+    Y_test_white = ra.xyuv(L_interp, spd .* ones_reflector).Y;
+    Y_ref_white  = ra.xyuv(L_interp, spd_ref .* ones_reflector).Y;
+
+    % === Подгоняем Y опорного под тестовый (классическая практика CRI) ===
+    scale = Y_test_white / max(Y_ref_white, eps);
+    spd_ref = spd_ref * scale;
+
+
+
     % 2) Отражательные спектры образцов R
     R = ra.rObjects(L_interp);   % [n×14]
+
+
 
     % 3) Индексы для R1..R14
     Rk = zeros(14,1);
@@ -54,6 +67,15 @@ function CRI = cri_ra(L_interp, spd)
     CRI.Rk  = Rk;
     CRI.Ra  = mean(Rk(1:8));
     CRI.CCT = CCT;
+
+    % === 5) Диагностика на случай "всё нули" ===
+    if ~all(isfinite(Rk)) || all(Rk==0)
+        warning('CRI: R_k contains non-finite or all zeros. Check: daylight_D, rObjects, XYZ white point, Y-normalization.');
+        debug.CR_Y_test_white = Y_test_white;
+        debug.CR_Y_ref_white  = Y_ref_white;
+        debug.Rk              = Rk;
+        CRI.debug = debug;
+    end
 
 end
 

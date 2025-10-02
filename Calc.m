@@ -121,7 +121,7 @@ CRI_fit    = ra.cri_ra(lambda_led, fit);
 CRI_target = ra.cri_ra(lambda_led, t);
 
 % Планковский излучатель при CCT смеси:
-CCT_fit = 6000;
+CCT_fit = 4000;
 SPD_bb  = ra.planckSpd(lambda_led, CCT_fit);
 CRI_bb  = ra.cri_ra(lambda_led, SPD_bb);
 
