@@ -1,32 +1,43 @@
 function E = evaluateSpectrum(L_interp, spd, target)
-% EVALUATESPECTRUM  Базовая оценка спектра (xy, u'v', XYZ, + сравнение с target)
-%
-% Вход:
 %   L_interp : [n x 1] сетка длин волн (нм)
 %   spd      : [n x 1] спектр смеси (например, fit)
 %   target : [n x 1] эталонный спектр на той же сетке (опц.)
-%
-% Выход (struct E):
-%   E.XYZ  : [3x1] тристимульные значения
-%   E.xy   : [2x1] координаты x,y
-%   E.uv   : [2x1] координаты u',v'
-%   E.dxy  : скаляр, расстояние между xy(fit) и xy(target) (если задан target)
-%   E.duv  : скаляр, расстояние между u'v'(fit) и u'v'(target) (если задан target)
-%
-% Позже сюда добавим: E.CCT, E.Ra, E.BHL и т.д.
+
+% E.color.XYZ — тристимульные значения (отн.).
+% E.color.xy — координаты CIE 1931 xy
+% E.color.uv — координаты CIE 1976 u'v'
+% E.CCT.CCT — коррелированная цветовая температура (K).
+% E.CCT.duv — модуль минимальной дистанции до планковского локуса в u′v′.
+% E.CCT.uv_src — координаты u′v′ твоего источника.
+% E.CCT.uv_bb — координаты u′v′ чёрного тела при E.CCT.CCT.
+% E.CCT.T_bounds — интервал поиска температуры, [K].
+% E.CCT.method — описание метода расчёта.
+% E.compare.dxy — расстояние между xy fit и target (если target задан).
+% E.compare.duv — расстояние между u′v′ fit и target.
 
 
 % базовые метрики по текущему спектру xy/uv
-    xyuvOut = ra.xyuv(L_interp, spd);
-    E = xyuvOut;
+col = ra.xyuv(L_interp, spd);
+E.color = col;
 
-    E.dxy = NaN;
-    E.duv = NaN;
-    if ~isempty(target)
-        xyuvOut_t = ra.xyuv(L_interp, target);
-        E.dxy = norm(xyuvOut.xy - xyuvOut_t.xy, 2);
-        E.duv = norm(xyuvOut.uv - xyuvOut_t.uv, 2);
-    end
+% Точная CCT и duv до локуса
+cct = ra.cctExact(L_interp, spd);
+E.CCT = cct;        % Кельвины
+
+% Сравнение с target (эталонный спектр)
+E.compare.dxy = NaN;
+E.compare.duv = NaN;
+if ~isempty(target)
+    col_t = ra.xyuv(L_interp, target);
+    cct_t = ra.cctExact(L_interp, target);
+    E.target.color = col_t;     % цветиметрия эталона
+    E.target.CCT   = cct_t;     % CCT эталона (аналогичная структура)
+    E.compare.dxy = norm(col.xy - col_t.xy, 2);
+    E.compare.duv = norm(col.uv - col_t.uv, 2);
+else
+    % если таргета нет — возвращаем пустые структуры для единообразия
+    E.target = struct('color',[],'CCT',[]);
+end
 
 
 end

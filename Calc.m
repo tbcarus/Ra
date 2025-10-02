@@ -96,11 +96,23 @@ checkSpectrum(lambda_led, t, S, Params, names, name2idx, w_opt, V);
 %% === Оценка спектра ===
 
 % базовая оценка смеси
-E_fit = evaluateSpectrum(lambda_led, fit, t);
+E = evaluateSpectrum(lambda_led, fit, t);
 
-fprintf('xy = (%.4f, %.4f)\n', E_fit.xy(1), E_fit.xy(2));
-fprintf('u''v'' = (%.4f, %.4f)\n', E_fit.uv(1), E_fit.uv(2));
+% fprintf('xy=(%.4f,%.4f), u''v''=(%.4f,%.4f)\n', E.color.xy(1),E.color.xy(2), E.color.uv(1),E.color.uv(2));
+% fprintf('CCT=%.0f K, Δu''v''(до локуса)=%.5f\n', E.CCT.CCT, E.CCT.duv);
+% if ~isnan(E.compare.dxy)
+%     fprintf('Δxy(fit vs target)=%.5f, Δu''v''(fit vs target)=%.5f\n', E.compare.dxy, E.compare.duv);
+% end
 
-if ~isnan(E_fit.dxy)
-    fprintf('Δxy = %.5f, Δu''v'' = %.5f\n', E_fit.dxy, E_fit.duv);
+fprintf('--- Смесь (fit) ---\n');
+fprintf('xy = (%.4f, %.4f), u''v'' = (%.4f, %.4f)\n', E.color.xy(1), E.color.xy(2), E.color.uv(1), E.color.uv(2));
+fprintf('CCT = %.0f K, Δu''v''(до локуса) = %.5f\n', E.CCT.CCT, E.CCT.duv);
+
+if ~isempty(E.target.color)
+    fprintf('\n--- Эталон (target) ---\n');
+    fprintf('xy = (%.4f, %.4f), u''v'' = (%.4f, %.4f)\n', E.target.color.xy(1), E.target.color.xy(2), E.target.color.uv(1), E.target.color.uv(2));
+    fprintf('CCT = %.0f K, Δu''v''(до локуса) = %.5f\n', E.target.CCT.CCT, E.target.CCT.duv);
+
+    fprintf('\n--- Отличия fit vs target ---\n');
+    fprintf('Δxy = %.5f, Δu''v'' = %.5f\n', E.compare.dxy, E.compare.duv);
 end
