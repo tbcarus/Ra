@@ -67,3 +67,65 @@ Tc1 = Tc(d1_idx);
 Tc2 = Tc(d2_idx);
 Txc = Tc1 + d1 * (Tc2-Tc1)/(d1-d2); %Тц в миревах (u)
 TxcK = 1e6/Txc; % Тц в К
+
+%% Ra около кривой планка с цветовым различием не более 0,01
+plank = 2*h*c^2./(LL.^5.*(exp(h*c./(LL*k*7000))-1)); % эталонный источник
+kc_ref = 100/trapz(LL, plank.*y_curve);
+Xref = kc_ref * trapz(Lambda, plank.*x_curve);
+Yref = kc_ref * trapz(Lambda, plank.*y_curve);
+Zref = kc_ref * trapz(Lambda, plank.*z_curve);
+
+Luv_ref = Yref;
+u_ref = 4*Xref/(Xref+15*Yref+3*Zref);
+v_ref = 9*Yref/(Xref+15*Yref+3*Zref);
+
+R = ra.rObjects(Lambda);
+R = R';
+
+XRtest = zeros(1,14); YRtest = zeros(1,14); ZRtest = zeros(1,14);
+LRtest = zeros(1,14); uRtest = zeros(1,14); vRtest = zeros(1,14);
+LxRtest = zeros(1,14); uxRtest = zeros(1,14); vxRtest = zeros(1,14);
+
+XRref = zeros(1,14); YRref = zeros(1,14); ZRref = zeros(1,14);
+LRref = zeros(1,14); uRref = zeros(1,14); vRref = zeros(1,14);
+LxRref = zeros(1,14); uxRref = zeros(1,14); vxRref = zeros(1,14);
+dE = zeros(1, 14); CRI = zeros(1, 14);
+for i=1:14
+    % координаты цвета эталонных поврехностей, освещаемых исследуемым
+    % (тестируемым) источником
+    XRtest(1,i) = kc*trapz(Lambda, I.*R(i,:).*x_curve);
+    YRtest(1,i) = kc*trapz(Lambda, I.*R(i,:).*y_curve);
+    ZRtest(1,i) = kc*trapz(Lambda, I.*R(i,:).*z_curve);
+    LRtest(1, i) = YRtest(1,i);
+    uRtest(1, i) = 4*XRtest(1,i)/(XRtest(1,i)+15*YRtest(1,i)+3*ZRtest(1,i));
+    vRtest(1, i) = 9*YRtest(1,i)/(XRtest(1,i)+15*YRtest(1,i)+3*ZRtest(1,i));
+    LxRtest(1, i) = 116*(YRtest(1,i)/Y).^(1/3) - 16;
+    uxRtest(1, i) = 13*LxRtest(1, i)*(uRtest(1, i)-u);
+    vxRtest(1, i) = 13*LxRtest(1, i)*(vRtest(1, i)-v);
+
+    % координаты цвета эталонных поврехностей, освещаемых эталонным
+    % (референсным) источником
+    XRref(1,i) = kc_ref*trapz(LL, plank.*R(i,:).*x_curve);
+    YRref(1,i) = kc_ref*trapz(LL, plank.*R(i,:).*y_curve);
+    ZRref(1,i) = kc_ref*trapz(LL, plank.*R(i,:).*z_curve);
+    LRref(1, i) = YRref(1,i);
+    uRref(1, i) = 4*XRref(1,i)/(XRref(1,i)+15*YRref(1,i)+3*ZRref(1,i));
+    vRref(1, i) = 9*YRref(1,i)/(XRref(1,i)+15*YRref(1,i)+3*ZRref(1,i));
+    LxRref(1, i) = 116*(YRref(1,i)/Y).^(1/3) - 16;
+    uxRref(1, i) = 13*LxRref(1, i)*(uRref(1, i)-u);
+    vxRref(1, i) = 13*LxRref(1, i)*(vRref(1, i)-v);
+    
+    % Цветовая разность
+    dE(1, i) = sqrt(...
+        (LxRtest(1, i)-LxRref(1, i))^2 + ...
+        (uxRtest(1, i)-uxRref(1, i))^2 + ...
+        (vxRtest(1, i)-vxRref(1, i))^2 ...
+        );
+    
+    % Частные индексы цветопередачи
+    CRI(1, i) = 100 - 4.6*dE(1, i);
+end
+    CRIo = mean (CRI);
+
+
+
