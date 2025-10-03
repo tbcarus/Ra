@@ -194,3 +194,10 @@ for i=1:14
 end
 CRIo2 = mean(CRI2);
 
+%% Вывод
+fprintf('xy = (%.4f, %.4f), u''v'' = (%.4f, %.4f), a*b* = (%.4f, %.4f)\n', x, y, u, v, a, b);
+fprintf('КТЦ = %.4f\n', TxcK);
+fprintf('Ra near plank = %.4f, Ra not near plank = %.4f\n', CRIo, CRIo2);
+
+
+
