@@ -20,8 +20,10 @@ setv(ra.Channels.PC_CYAN_XEG,  330,  1, 2.9);
 setv(ra.Channels.PC_CYAN_XQE,  110,  0.35, 2.8);
 setv(ra.Channels.LIME,  500,  1, 2.95);
 setv(ra.Channels.GREEN,  184,  0.35, 2.7);
+setv(ra.Channels.AMBER,  103,  0.32, 2.18);
 setv(ra.Channels.PC_AMBER,  310,  1, 2.95);
-setv(ra.Channels.RED,  83,  0.35, 2.08);
+setv(ra.Channels.RED,  55,  1, 3);
+setv(ra.Channels.PC_RED,  83,  0.35, 2.08);
 setv(ra.Channels.DEEP_RED,  0.512,  0.35, 2.09);
 setv(ra.Channels.FAR_RED,  0.437,  0.35, 1.88);
 

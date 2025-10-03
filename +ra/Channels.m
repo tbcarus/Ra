@@ -10,8 +10,10 @@ classdef Channels
         PC_CYAN_XQE  = 'PC Cyan XQE'
         LIME         = 'Lime'
         GREEN        = 'Green'
+        AMBER        = 'Amber'
         PC_AMBER     = 'PC Amber'
         RED          = 'Red'
+        PC_RED       = 'PC Red'
         DEEP_RED     = 'Deep red'
         FAR_RED      = 'Far red'
     end
