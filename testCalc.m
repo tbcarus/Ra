@@ -71,9 +71,9 @@ TxcK = 1e6/Txc; % Тц в К
 %% Ra около кривой планка с цветовым различием не более 0,01
 plank = 2*h*c^2./(LL.^5.*(exp(h*c./(LL*k*7000))-1)); % эталонный источник
 kc_ref = 100/trapz(LL, plank.*y_curve);
-Xref = kc_ref * trapz(Lambda, plank.*x_curve);
-Yref = kc_ref * trapz(Lambda, plank.*y_curve);
-Zref = kc_ref * trapz(Lambda, plank.*z_curve);
+Xref = kc_ref * trapz(LL, plank.*x_curve);
+Yref = kc_ref * trapz(LL, plank.*y_curve);
+Zref = kc_ref * trapz(LL, plank.*z_curve);
 
 Luv_ref = Yref;
 u_ref = 4*Xref/(Xref+15*Yref+3*Zref);
@@ -127,5 +127,41 @@ for i=1:14
 end
     CRIo = mean (CRI);
 
+%% Ra около кривой планка с цветовым различием более 0,01
+plank2 = 2*h*c^2./(LL.^5.*(exp(h*c./(LL*k*TxcK))-1)); % эталонный источник
+kc_ref2 = 100/trapz(LL, plank2.*y_curve);
+Xref2 = kc_ref2 * trapz(LL, plank2.*x_curve);
+Yref2 = kc_ref2 * trapz(LL, plank2.*y_curve);
+Zref2 = kc_ref2 * trapz(LL, plank2.*z_curve);
 
+Luv_ref2 = Yref2;
+u_ref2 = 4*Xref2/(Xref2+15*Yref2+3*Zref2);
+v_ref2 = 9*Yref2/(Xref2+15*Yref2+3*Zref2);
+
+XRref2 = zeros(1,14); YRref2 = zeros(1,14); ZRref2 = zeros(1,14);
+LRref2 = zeros(1,14); uRref2 = zeros(1,14); vRref2 = zeros(1,14);
+LXRref2 = zeros(1,14); uXRref2 = zeros(1,14); vXRref2 = zeros(1,14);
+
+rref2 = (4 - u_ref2 - 10 * v_ref2)/v_ref2;
+fref2 = (1.708*v_ref2 + 0.404 - 1.481*u_ref2)/v_ref2;
+rtest2 = (4 - u - 10 * v)/v;
+ftest2 = (1.708*v + 0.404 - 1.481*u)/v;
+rR2 = zeros(1,14); fR2 = zeros(1,14);
+for i=1:14
+    % координаты цвета эталонных поврехностей, освещаемых эталонным
+    % (референсным) источником
+    XRref2(1,i) = kc_ref2*trapz(LL, plank2.*R(i,:).*x_curve);
+    YRref2(1,i) = kc_ref2*trapz(LL, plank2.*R(i,:).*y_curve);
+    ZRref2(1,i) = kc_ref2*trapz(LL, plank2.*R(i,:).*z_curve);
+    LRref2(1, i) = YRref2(1,i);
+    uRref2(1, i) = 4*XRref2(1,i)/(XRref2(1,i)+15*YRref2(1,i)+3*ZRref2(1,i));
+    vRref2(1, i) = 9*YRref2(1,i)/(XRref2(1,i)+15*YRref2(1,i)+3*ZRref2(1,i));
+    LXRref2(1, i) = 116*(YRref2(1,i)/Y).^(1/3) - 16;
+    uXRref2(1, i) = 13*LXRref2(1, i)*(uRref2(1, i)-u);
+    vXRref2(1, i) = 13*LXRref2(1, i)*(vRref2(1, i)-v);
+
+    rR2(1, i) = (4 - uRtest(1, i) - 10 * vRtest(1, i))/vRtest(1, i);
+    fR2(1, i) = (1.708*vRtest(1, i) + 0.404 - 1.481*uRtest(1, i))/vRtest(1, i);
+
+end
 
