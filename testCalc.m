@@ -125,7 +125,7 @@ for i=1:14
     % Частные индексы цветопередачи
     CRI(1, i) = 100 - 4.6*dE(1, i);
 end
-    CRIo = mean (CRI);
+    CRIo = mean(CRI);
 
 %% Ra около кривой планка с цветовым различием более 0,01
 plank2 = 2*h*c^2./(LL.^5.*(exp(h*c./(LL*k*TxcK))-1)); % эталонный источник
@@ -147,6 +147,10 @@ fref2 = (1.708*v_ref2 + 0.404 - 1.481*u_ref2)/v_ref2;
 rtest2 = (4 - u - 10 * v)/v;
 ftest2 = (1.708*v + 0.404 - 1.481*u)/v;
 rR2 = zeros(1,14); fR2 = zeros(1,14);
+uxxRtest = zeros(1,14); vxxRtest = zeros(1,14);
+LxxxRref = zeros(1,14); uxxxRref = zeros(1,14); vxxxRref = zeros(1,14);
+LxxxRtest = zeros(1,14); uxxxRtest = zeros(1,14); vxxxRtest = zeros(1,14);
+dE2 = zeros(1, 14); CRI2 = zeros(1, 14);
 for i=1:14
     % координаты цвета эталонных поврехностей, освещаемых эталонным
     % (референсным) источником
@@ -163,5 +167,30 @@ for i=1:14
     rR2(1, i) = (4 - uRtest(1, i) - 10 * vRtest(1, i))/vRtest(1, i);
     fR2(1, i) = (1.708*vRtest(1, i) + 0.404 - 1.481*uRtest(1, i))/vRtest(1, i);
 
+    uxxRtest(1, i) = (10.872+0.404*(rref2/rtest2)*rR2(1, i) - 4*(fref2/ftest2)*fR2(1, i))/(16.518+1.481*(rref2/rtest2)*rR2(1, i)-(fref2/ftest2)*fR2(1, i));
+    vxxRtest(1, i) = 5.520/(16.518+1.481*(rref2/rtest2)*rR2(1, i)-(fref2/ftest2)*fR2(1, i));
+
+    
+    uxxtest = (10.872+0.404*rref2 - 4*fref2)/(16.518+1.481*rref2-fref2);
+    vxxtest = 5.520/(16.518+1.481*rref2-fref2);
+
+    LxxxRref(1, i) = (116*(YRref2(1,i)/Yref2)^(1/3)-16);
+    uxxxRref(1, i) = 13*LxxxRref(1, i)*(uRref2(1, i)-u_ref2);
+    vxxxRref(1, i) = 13*LxxxRref(1, i)*(vRref2(1, i)-v_ref2);
+
+    LxxxRtest(1, i) = (116*(YRtest(1,i)/Y)^(1/3)-16);
+    uxxxRtest(1, i) = 13*LxxxRtest(1, i)*(uxxRtest(1, i)-uxxtest);
+    vxxxRtest(1, i) = 13*LxxxRtest(1, i)*(vxxRtest(1, i)-vxxtest);
+
+% Цветовая разность
+    dE2(1, i) = sqrt(...
+        (LxxxRref(1, i)-LxxxRtest(1, i))^2 + ...
+        (uxxxRref(1, i)-uxxxRtest(1, i))^2 + ...
+        (vxxxRref(1, i)-vxxxRtest(1, i))^2 ...
+        );
+    
+    % Частные индексы цветопередачи
+    CRI2(1, i) = 100 - 4.6*dE2(1, i);
 end
+CRIo2 = mean(CRI2);
 
