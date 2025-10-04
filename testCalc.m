@@ -79,7 +79,7 @@ Luv_ref = Yref;
 u_ref = 4*Xref/(Xref+15*Yref+3*Zref);
 v_ref = 9*Yref/(Xref+15*Yref+3*Zref);
 
-R = ra.rObjects(Lambda);
+R = data.rObjects(Lambda);
 R = R';
 
 XRtest = zeros(1,14); YRtest = zeros(1,14); ZRtest = zeros(1,14);

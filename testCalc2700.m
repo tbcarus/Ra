@@ -71,7 +71,7 @@ d2_idx = d1_idx + 1;
 d2 = d(d2_idx);
 Tc1 = Tc(d1_idx);
 Tc2 = Tc(d2_idx);
-Txc = Tc1 + d1 * (Tc2-Tc1)/(d1-d2); %Тц в миревах (u)
+Txc = Tc1 + d1 * (Tc2-Tc1)/(d1-d2); %Тц в миредах (u)
 TxcK = 1e6/Txc; % Тц в К
 
 %% Ra около кривой планка с цветовым различием не более 0,01
@@ -85,7 +85,7 @@ Luv_ref = Yref;
 u_ref = 4*Xref/(Xref+15*Yref+3*Zref);
 v_ref = 9*Yref/(Xref+15*Yref+3*Zref);
 
-R = ra.rObjects(Lambda);
+R = data.rObjects(Lambda);
 R = R';
 
 XRtest = zeros(1,14); YRtest = zeros(1,14); ZRtest = zeros(1,14);

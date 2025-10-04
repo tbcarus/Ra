@@ -1,4 +1,4 @@
-function E = evaluateSpectrum(L_interp, spd, target)
+function [E, eItmo] = evaluateSpectrum(L_interp, spd, target)
 %   L_interp : [n x 1] сетка длин волн (нм)
 %   spd      : [n x 1] спектр смеси (например, fit)
 %   target : [n x 1] эталонный спектр на той же сетке (опц.)
@@ -20,9 +20,17 @@ function E = evaluateSpectrum(L_interp, spd, target)
 col = ra.xyuv(L_interp, spd);
 E.color = col;
 
+% базовые метрики по текущему спектру xy/uv - альтернативный
+colItmo = itmo.xyuvItmo(L_interp, spd);
+eItmo.color = colItmo;
+
 % Точная CCT и duv до локуса
 cct = ra.cctExact(L_interp, spd);
 E.CCT = cct;        % Кельвины
+
+% Точная CCT - альтернативный
+cctItmo = itmo.cctItmo(L_interp, spd);
+eItmo.CCT = cctItmo;
 
 % Ra
 cri = ra.cri_ra(L_interp, spd);

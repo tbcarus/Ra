@@ -101,7 +101,7 @@ checkSpectrum(lambda_led, t, S, Params, names, name2idx, w_opt, V);
 %% === Оценка спектра ===
 
 % базовая оценка смеси
-E = evaluateSpectrum(lambda_led, fit, t);
+[E, eItmo] = evaluateSpectrum(lambda_led, fit, t);
 
 % fprintf('xy=(%.4f,%.4f), u''v''=(%.4f,%.4f)\n', E.color.xy(1),E.color.xy(2), E.color.uv(1),E.color.uv(2));
 % fprintf('CCT=%.0f K, Δu''v''(до локуса)=%.5f\n', E.CCT.CCT, E.CCT.duv);
@@ -110,8 +110,10 @@ E = evaluateSpectrum(lambda_led, fit, t);
 % end
 
 fprintf('--- Смесь (fit) ---\n');
-fprintf('xy = (%.4f, %.4f), u''v'' = (%.4f, %.4f)\n', E.color.xy(1), E.color.xy(2), E.color.uv(1), E.color.uv(2));
-fprintf('CCT = %.0f K, Δu''v''(до локуса) = %.5f\n', E.CCT.CCT, E.CCT.duv);
+fprintf('ORIG xy = (%.4f, %.4f), u''v'' = (%.4f, %.4f)\n', E.color.xy(1), E.color.xy(2), E.color.uv(1), E.color.uv(2));
+fprintf('ITMO xy = (%.4f, %.4f), u''v'' = (%.4f, %.4f)\n', eItmo.color.xy(1), eItmo.color.xy(2), eItmo.color.uv(1), eItmo.color.uv(2));
+fprintf('ORIG CCT = %.0f K, Δu''v''(до локуса) = %.5f\n', E.CCT.CCT, E.CCT.duv);
+fprintf('ITMO CCT = %.0f K, Δu''v''(до локуса) = %.5f\n', eItmo.CCT.CCT);
 
 if ~isempty(E.target.color)
     fprintf('\n--- Эталон (target) ---\n');

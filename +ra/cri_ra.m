@@ -33,7 +33,7 @@ function CRI = cri_ra(L_interp, spd)
 
 
     % 2) Отражательные спектры образцов R
-    R = ra.rObjects(L_interp);   % [n×14]
+    R = data.rObjects(L_interp);   % [n×14]
 
 
 
