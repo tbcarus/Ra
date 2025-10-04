@@ -126,12 +126,22 @@ end
 
 CRI_fit    = ra.cri_ra(lambda_led, fit);
 CRI_target = ra.cri_ra(lambda_led, t);
+criItmoFit = itmo.criRaItmo(lambda_led, fit);
+criItmoTarget = itmo.criRaItmo(lambda_led, t);
 
 % Планковский излучатель при CCT смеси:
 CCT_fit = 4000;
 SPD_bb  = ra.planckSpd(lambda_led, CCT_fit);
 CRI_bb  = ra.cri_ra(lambda_led, SPD_bb);
+criItmoBb = itmo.criRaItmo(lambda_led, SPD_bb);
 
-fprintf('Ra(fit)=%.1f, Ra(target)=%.1f, Ra(Planck@CCT_fit)=%.1f\n', ...
+fprintf('ORIG ...............Ra(fit)=%.1f, Ra(target)=%.1f, Ra(Planck@CCT_fit)=%.1f\n', ...
         CRI_fit.Ra, CRI_target.Ra, CRI_bb.Ra);
+fprintf('ITMO near Plank ....Ra(fit)=%.1f, Ra(target)=%.1f, Ra(Planck@CCT_fit)=%.1f\n', ...
+        criItmoFit.nearPlank, criItmoTarget.nearPlank, criItmoBb.nearPlank);
+fprintf('ITMO not near Plank Ra(fit)=%.1f, Ra(target)=%.1f, Ra(Planck@CCT_fit)=%.1f\n', ...
+        criItmoFit.notNearPlnk, criItmoTarget.notNearPlnk, criItmoBb.notNearPlnk);
+
+
+
 

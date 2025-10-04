@@ -51,6 +51,9 @@ else
     E.target = struct('color',[],'CCT',[]);
 end
 
+% Ra альтернативный
+eItmoCri = itmo.criRaItmo(L_interp, spd);
+eItmo.CRI = eItmoCri;
 
 end
 

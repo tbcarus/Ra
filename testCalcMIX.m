@@ -75,7 +75,7 @@ Txc = Tc1 + d1 * (Tc2-Tc1)/(d1-d2); %Тц в миредах (u)
 TxcK = 1e6/Txc; % Тц в К
 
 %% Ra около кривой планка с цветовым различием не более 0,01
-plank = 2*h*c^2./(LL.^5.*(exp(h*c./(LL*k*7000))-1)); % эталонный источник
+plank = 2*h*c^2./(LL.^5.*(exp(h*c./(LL*k*TxcK))-1)); % эталонный источник
 kc_ref = 100/trapz(LL, plank.*y_curve);
 Xref = kc_ref * trapz(LL, plank.*x_curve);
 Yref = kc_ref * trapz(LL, plank.*y_curve);
