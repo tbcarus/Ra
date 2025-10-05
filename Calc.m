@@ -130,7 +130,7 @@ criItmoFit = itmo.criRaItmo(lambda_led, fit);
 criItmoTarget = itmo.criRaItmo(lambda_led, t);
 
 % Планковский излучатель при CCT смеси:
-CCT_fit = 4000;
+CCT_fit = 6500;
 SPD_bb  = ra.planckSpd(lambda_led, CCT_fit);
 CRI_bb  = ra.cri_ra(lambda_led, SPD_bb);
 criItmoBb = itmo.criRaItmo(lambda_led, SPD_bb);
@@ -141,6 +141,12 @@ fprintf('ITMO near Plank ....Ra(fit)=%.1f, Ra(target)=%.1f, Ra(Planck@CCT_fit)=%
         criItmoFit.nearPlank, criItmoTarget.nearPlank, criItmoBb.nearPlank);
 fprintf('ITMO not near Plank Ra(fit)=%.1f, Ra(target)=%.1f, Ra(Planck@CCT_fit)=%.1f\n', ...
         criItmoFit.notNearPlnk, criItmoTarget.notNearPlnk, criItmoBb.notNearPlnk);
+
+% --- BHL ---
+BLH = ra.blueHazard(lambda_led, fit, 50, 1.0, 4.0);
+fprintf('Blue-hazard radiance L_B = %.3e W·m^-2·sr^-1\n', BLH.LB_W_m2_sr); % ≤ 100 W·m⁻²·sr⁻¹ при t ≤ 100 с
+fprintf('Blue-hazard irradiance E_B (on-axis @ %.1fm) = %.3e W·m^-2\n', 4.0, BLH.EB_W_m2); % ≤ 1 W·m⁻² для длительных (> 10⁴ с) экспозиций
+fprintf('Relative BHL index = %.5f\n', BLH.BH_index);
 
 
 

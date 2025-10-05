@@ -1,32 +1,40 @@
 
-function out = blueHazard(lambda_nm, spd, varargin)
-% Индекс "blue-light hazard" как ∫ SPD(λ)*B(λ) dλ (нормированный).
-% Name-Value:
-%   'B' : [n x 1] весовая функция B(λ) на той же сетке (если нет — используем встроенную)
+function out = blueHazard(L_interp, spd, beam, Dm, dist)
+% Индекс "blue-light hazard"
+% beam - угол излучения
+% Dm - диаметр излучателя
+% dist - расстояние до излучателя
 
-p = inputParser;
-p.addParameter('B', [], @(v)isvector(v));
-p.parse(varargin{:});
-B = p.Results.B;
+B = ra.blh(L_interp);
 
-if isempty(B)
-    B = default_B(lambda_nm); % вставь свою стандартную функцию
-end
-B = B(:);
+% Геометрия
+A_em   = pi*(Dm/2)^2;                          % площадь свечения
+Omega  = 2*pi*(1-cos(deg2rad(beam/2)));        % телесный угол
+alpha  = Dm / dist;                            % угловой размер источника [rad]
+isExt  = alpha > 0.1;                          % >100 mrad, то протяжённый источник
 
-num = trapz(lambda_nm, spd(:).*B);
-den = trapz(lambda_nm, spd(:));         % нормируем на общую мощность
-index = num / max(den, eps);
+% Интенсивность и радиантность (топ-хэт):
+% I_λ = Φ_λ / Ω  [W/sr/nm]
+% L_λ = I_λ / A_proj ≈ I_λ / A_em   [W/m^2/sr/nm]
+I_lambda = spd / Omega;
+L_lambda = I_lambda / A_em;
 
-out.index = index;
-out.weighted = num;      % невнормированный интеграл
-out.B = B;
-end
+% Освещённость на оси в точке r: E_λ = I_λ / r^2  [W/m^2/nm]
+E_lambda = I_lambda / dist^2;
 
-function B = default_B(lambda_nm)
-% ЗАГЛУШКА: вставь стандартную кривую blue-light hazard B(λ) (≈ 300–700 нм)
-B = zeros(numel(lambda_nm),1);
-% Пример: можно задать плечо 400–500нм "колокольчиком"/таблицей и интерполировать
+% Интегралы по λ
+LB = trapz(L_interp, L_lambda .* B);          % [W/m^2/sr]
+EB = trapz(L_interp, E_lambda .* B);          % [W/m^2]
+BH_index = trapz(L_interp, spd .* B) / trapz(L_interp, spd);   % относительный индекс
+
+out.LB_W_m2_sr   = LB;
+out.EB_W_m2      = EB;
+out.BH_index     = BH_index;
+out.Omega_sr     = Omega;
+out.A_em_m2      = A_em;
+out.alpha_src_rad= alpha;
+out.isExtended   = isExt;
+
 end
 
 

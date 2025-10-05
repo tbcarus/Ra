@@ -15,10 +15,8 @@ function CRI = cri_ra(L_interp, spd)
     % 1) Опорный источник
     if CCT < 5000
         spd_ref = ra.planckSpd(L_interp, CCT);
-        % spd_ref = spd_ref / trapz(L_interp, spd_ref);    % нормируем по площади
     else
-        spd_ref = daylight_D(L_interp, CCT);             % TODO: реализовать D-источники
-        % spd_ref = spd_ref / trapz(L_interp, spd_ref);
+        spd_ref = daylight_D(L_interp, CCT);
     end
 
     % === Белая поверхность (R=1) под обоими источниками ===
