@@ -125,6 +125,26 @@ plot(L_interp, I_PCA, 'Color', [255/255 198/255 0/255]);
 plot(L_interp, I_A, 'Color', [255/255 198/255 0/255]);
 % plot(L_interp, V, 'black', 'LineWidth', 2);
 
+% В ое
+% figure
+% plot(L_interp, I_2700/max(I_2700), 'Color', [220/255 202/255 47/255]);
+% grid on;
+% hold on;
+% plot(L_interp, I_6500/max(I_6500), 'Color', [44/255 165/255 222/255]);
+% plot(L_interp, I_Cyan/max(I_Cyan), 'Color', [20/255 215/255 233/255]);
+% plot(L_interp, I_PCCyan_XEG/max(I_PCCyan_XEG), 'Color', [120/255 215/255 233/255]);
+% plot(L_interp, I_PCCyan_XQE/max(I_PCCyan_XQE), 'Color', [52/255 175/255 189/255]);
+% plot(L_interp, I_RB/max(I_RB), 'Color', [0/255 11/255 153/255]);
+% plot(L_interp, I_B/max(I_B), 'Color', [0/255 0/255 255/255]);
+% plot(L_interp, I_FR/max(I_FR), 'Color', [90/255 0/255 0/255]);
+% plot(L_interp, I_DR/max(I_DR), 'Color', [155/255 0/255 0/255]);
+% plot(L_interp, I_R/max(I_R), 'Color', [255/255 0/255 0/255]);
+% plot(L_interp, I_PCRed_XEG/max(I_PCRed_XEG), 'Color', [255/255 0/255 0/255]);
+% plot(L_interp, I_G/max(I_G), 'Color', [0/255 255/255 0/255]);
+% plot(L_interp, I_Lime/max(I_Lime), 'Color', [85/255 220/255 85/255]);
+% plot(L_interp, I_PCA/max(I_PCA), 'Color', [255/255 198/255 0/255]);
+% plot(L_interp, I_A/max(I_A), 'Color', [255/255 198/255 0/255]);
+
 %% Расчёт теоретической светоотдачи
 F_teor_2700 = 683*trapz(L_interp, I_2700.*V)/trapz(L_interp, I_2700);
 disp(strcat('    2700..........', int2str(F_teor_2700), ' лм'));
