@@ -98,6 +98,9 @@ checkSpectrum(lambda_led, t, S, Params, names, name2idx, w_opt, V);
 
 %% === Оценка спектра ===
 
+% подмена результирующей кривой планком для проверки расчёта Тц (ОК) и Ra (ORIG - не ОК, ITMO - ОК).
+% fit = ra.planckSpd(lambda_led, 6500);
+
 % базовая оценка смеси
 [E, eItmo] = evaluateSpectrum(lambda_led, fit, t);
 
