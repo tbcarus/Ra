@@ -1,6 +1,9 @@
 clearvars;
 close all;
 
+%%
+% Это основной исполняемый файл
+
 %% === ДАННЫЕ ===
 % names      : {1 x m} имена каналов в порядке столбцов S
 % S          : [n x m] матрица спектров LED (каждый столбец нормирован к реальному потоку)
@@ -28,12 +31,12 @@ W = spdiags(u, 0, n, n);
 %% === (Опц.) Ограничения на веса диодов ===
 disabled_names = {};
 % disabled_names = {ra.Channels.WARM2700, ra.Channels.COOL6500};
-% disabled_names = {ra.Channels.ROYAL_BLUE, ...
+% disabled_names = {ra.Channels.COOL6500, ra.Channels.ROYAL_BLUE, ...
 %     ra.Channels.BLUE, ra.Channels.CYAN, ra.Channels.PC_CYAN_XEG, ...
 %     ra.Channels.PC_CYAN_XQE, ra.Channels.LIME, ra.Channels.GREEN, ...
 %     ra.Channels.AMBER, ra.Channels.PC_AMBER, ra.Channels.RED, ...
 %     ra.Channels.PC_RED, ra.Channels.DEEP_RED, ra.Channels.FAR_RED};
-disabled_names = {ra.Channels.LIME};
+% disabled_names = {ra.Channels.LIME};
 
 active_mask = ~ismember(names, disabled_names);
 % Для контроля вывод отключённых каналов:
@@ -99,7 +102,7 @@ checkSpectrum(lambda_led, t, S, Params, names, name2idx, w_opt, V);
 %% === Оценка спектра ===
 
 % подмена результирующей кривой планком для проверки расчёта Тц (ОК) и Ra (ORIG - не ОК, ITMO - ОК).
-% fit = ra.planckSpd(lambda_led, 6500);
+% fit = ra.planckSpd(lambda_led, 4500);
 
 % базовая оценка смеси
 [E, eItmo] = evaluateSpectrum(lambda_led, fit, t);
@@ -112,9 +115,9 @@ checkSpectrum(lambda_led, t, S, Params, names, name2idx, w_opt, V);
 
 fprintf('--- Смесь (fit) ---\n');
 fprintf('ORIG xy = (%.4f, %.4f), u''v'' = (%.4f, %.4f)\n', E.color.xy(1), E.color.xy(2), E.color.uv(1), E.color.uv(2));
-% fprintf('ITMO xy = (%.4f, %.4f), u''v'' = (%.4f, %.4f)\n', eItmo.color.xy(1), eItmo.color.xy(2), eItmo.color.uv(1), eItmo.color.uv(2));
+fprintf('ITMO xy = (%.4f, %.4f), u''v'' = (%.4f, %.4f)\n', eItmo.color.xy(1), eItmo.color.xy(2), eItmo.color.uv(1), eItmo.color.uv(2));
 fprintf('ORIG CCT = %.0f K, Δu''v''(до локуса) = %.5f\n', E.CCT.CCT, E.CCT.duv);
-% fprintf('ITMO CCT = %.0f K, Δu''v''(до локуса) = %.5f\n', eItmo.CCT.CCT);
+fprintf('ITMO CCT = %.0f K, Δu''v''(до локуса) = %.5f\n', eItmo.CCT.CCT);
 
 if ~isempty(E.target.color)
     fprintf('\n--- Эталон (target) ---\n');

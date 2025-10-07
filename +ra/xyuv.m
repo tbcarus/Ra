@@ -12,7 +12,7 @@ function xyuvOut = xyuv(lambda_nm, spd)
 %   .xy    - координаты [x; y] (CIE 1931)
 %   .uv    - координаты [u'; v'] (CIE 1976)
 
-[x,y,z] = ra.cie_xyz(lambda_nm);
+[x,y,z] = data.cie_xyz(lambda_nm);
 x(isnan(x)) = 0;
 y(isnan(y)) = 0;
 z(isnan(z)) = 0;

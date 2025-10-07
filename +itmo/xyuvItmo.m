@@ -1,7 +1,7 @@
 function [xyuvOut] = xyuvItmo(Lambda, I)
 
 % XYZ
-[xCurve,yCurve,zCurve] = ra.cie_xyz(Lambda);
+[xCurve,yCurve,zCurve] = data.cie_xyz(Lambda);
 kc = 100/trapz(Lambda, I.*yCurve);
 X = kc * trapz(Lambda, I.*xCurve);
 Y = kc * trapz(Lambda, I.*yCurve);

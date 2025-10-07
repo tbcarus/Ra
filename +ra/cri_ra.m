@@ -89,7 +89,7 @@ function spd = daylight_D(L_interp, CCT)
 %
 % Выход:
 %   spd      : [n×1] спектральная плотность D-источника (отн.)
-[S0, S1, S2] = ra.S0_S1_S2(L_interp);
+[S0, S1, S2] = data.S0_S1_S2(L_interp);
     % Цветность дневного освещения x_D, y_D как функции CCT ===
     xD = xD_from_CCT(CCT);
     yD = -3.000*xD.^2 + 2.870*xD - 0.275;   % полином CIE для y_D(x_D)

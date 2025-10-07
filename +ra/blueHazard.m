@@ -5,7 +5,7 @@ function out = blueHazard(L_interp, spd, beam, Dm, dist)
 % Dm - диаметр излучателя
 % dist - расстояние до излучателя
 
-B = ra.blh(L_interp);
+B = data.blh(L_interp);
 
 % Геометрия
 A_em   = pi*(Dm/2)^2;                          % площадь свечения
