@@ -33,7 +33,7 @@ cctItmo = itmo.cctItmo(L_interp, spd);
 eItmo.CCT = cctItmo;
 
 % Ra
-cri = ra.cri_ra(L_interp, spd);
+cri = ra.criRa(L_interp, spd);
 E.CRI = cri;
 
 % Сравнение с target (эталонный спектр)

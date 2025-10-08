@@ -28,7 +28,7 @@ opts = optimset('TolX',1,'Display','off');
 [T_opt, duv_min] = fminbnd(fun, T_lo, T_hi, opts);
 
 % 4) u'v' для черного тела при найденной температуре
-uv_bb = ra.xyuv(L_interp, ra.planckSpd(L_interp, T_opt)).uv;
+uv_bb = ra.xyuv(L_interp, utils.planckSpd(L_interp, T_opt)).uv;
 
 % 5) Результат
 cctOut.CCT      = T_opt; % коррелированная Тц
@@ -40,7 +40,7 @@ cctOut.method   = 'fminbnd on Planck locus';
 
 
 function d = duv_to_bb(L_interp, uv_src, T)
-    spd_bb = ra.planckSpd(L_interp, T);          % спектр чёрного тела при T
+    spd_bb = utils.planckSpd(L_interp, T);          % спектр чёрного тела при T
     uv_bb  = ra.xyuv(L_interp, spd_bb).uv;        % его u'v'
     d      = hypot(uv_src(1)-uv_bb(1), uv_src(2)-uv_bb(2));  % расстояние
 end

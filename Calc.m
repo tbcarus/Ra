@@ -97,7 +97,7 @@ xlabel('\lambda, nm'); ylabel('Error'); grid on;
 title('Остаток: S*w - t');
 
 %% === ПРОВЕРКА ===
-checkSpectrum(lambda_led, t, S, Params, names, name2idx, w_opt, V);
+check.checkSpectrum(lambda_led, t, S, Params, names, name2idx, w_opt, V);
 
 %% === Оценка спектра ===
 
@@ -128,15 +128,15 @@ if ~isempty(E.target.color)
     fprintf('Δxy = %.5f, Δu''v'' = %.5f\n', E.compare.dxy, E.compare.duv);
 end
 
-CRI_fit    = ra.cri_ra(lambda_led, fit);
-CRI_target = ra.cri_ra(lambda_led, t);
+CRI_fit    = ra.criRa(lambda_led, fit);
+CRI_target = ra.criRa(lambda_led, t);
 criItmoFit = itmo.criRaItmo(lambda_led, fit);
 criItmoTarget = itmo.criRaItmo(lambda_led, t);
 
 % Планковский излучатель при CCT смеси:
 CCT_fit = 6500;
-SPD_bb  = ra.planckSpd(lambda_led, CCT_fit);
-CRI_bb  = ra.cri_ra(lambda_led, SPD_bb);
+SPD_bb  = utils.planckSpd(lambda_led, CCT_fit);
+CRI_bb  = ra.criRa(lambda_led, SPD_bb);
 criItmoBb = itmo.criRaItmo(lambda_led, SPD_bb);
 
 fprintf('ORIG ...............Ra(fit)=%.1f, Ra(target)=%.1f, Ra(Planck@CCT_fit)=%.1f\n', ...
