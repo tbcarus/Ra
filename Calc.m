@@ -11,9 +11,9 @@ close all;
 % lambda_t   : [nt x 1] сетка эталона
 % t_raw      : [nt x 1] эталонный спектр (нормирован к реальному потоку)
 
-[Params, T, F_Sun_AM15] = led_config();
+[Params, T, F_Sun_AM15] = data.ledData();
 [names, name2idx] = ra.led_order();
-[S, lambda_led, lambda_t, t_raw, V] = spectra(names, name2idx, Params, F_Sun_AM15);
+[S, lambda_led, lambda_t, t_raw, V] = data.spectra(names, name2idx, Params, F_Sun_AM15);
 assert(exist('lambda_led','var')==1 && exist('S','var')==1, 'Нет S или lambda_led');
 assert(exist('lambda_t','var')==1 && exist('t_raw','var')==1, 'Нет эталона');
 [n, m] = size(S);
